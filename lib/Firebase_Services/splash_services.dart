@@ -10,7 +10,7 @@ class SplashServices {
     //       context, MaterialPageRoute(builder: (context) => LoginScreen()));
     // });
     Timer(
-        Duration(milliseconds: 6000),
+        Duration(milliseconds: 4750),
         () => Navigator.push(
             context,
             MaterialPageRoute(

@@ -30,12 +30,9 @@ class _Splash_ScreenState extends State<SplashScreen> {
           children: [
             Center(
               child: Lottie.asset(
-                // 'https://lottie.host/c3726644-9541-4d32-898b-2ca5fd876791/qBEHZ5i081.json',
-                // 'https://lottie.host/65fd5c6f-6570-43fd-a732-2afd15600883/kEJLqpFgI0.json',
                 'assets/files/myanimation.json',
               ),
             ),
-            Text("asdasd"),
           ],
         ));
   }
