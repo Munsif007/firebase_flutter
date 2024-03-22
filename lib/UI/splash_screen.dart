@@ -35,6 +35,7 @@ class _Splash_ScreenState extends State<SplashScreen> {
                 'assets/files/myanimation.json',
               ),
             ),
+            Text("asdasd"),
           ],
         ));
   }
