@@ -1,4 +1,5 @@
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_flutter/Pages/HomePage.dart';
 import 'package:firebase_flutter/UI/Auth/login_screen.dart';
 import 'package:firebase_flutter/UI/splash_screen.dart';
 import 'package:firebase_flutter/firebase_options.dart';

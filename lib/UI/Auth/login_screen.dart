@@ -18,6 +18,7 @@ class _LoginScreenState extends State<LoginScreen> {
   final formkey = GlobalKey<FormState>();
   bool iscircle = false;
   TextEditingController email = TextEditingController();
+  TextEditingController password = TextEditingController();
 
   validate(BuildContext context) async {
     if (formkey.currentState!.validate()) {
@@ -34,6 +35,7 @@ class _LoginScreenState extends State<LoginScreen> {
       setState(() {
         iscircle = false;
         email.text = "";
+        password.text = "";
       });
     }
   }
@@ -95,11 +97,14 @@ class _LoginScreenState extends State<LoginScreen> {
                                   borderSide: BorderSide(color: Colors.purple),
                                   borderRadius: BorderRadius.circular(15))),
                           validator: (value) {
-                            if (value!.isEmpty) {
-                              return "Email is Required";
-                            } else {
+                            if (value!.isEmpty)
+                              return "Enter Your Email Address!";
+                            else if (!RegExp(
+                                    r'^[\w-]+(\.[\w-]+)*@[\w-]+(\.[\w-]+)+$')
+                                .hasMatch(value)) {
+                              return 'Please enter a valid email address';
+                            } else
                               return null;
-                            }
                           },
                         ),
                       ),
@@ -107,6 +112,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         padding: const EdgeInsets.symmetric(
                             horizontal: 20, vertical: 5),
                         child: TextFormField(
+                          controller: password,
                           obscureText: passwordVisible,
                           autovalidateMode: AutovalidateMode.onUserInteraction,
                           keyboardType: TextInputType.emailAddress,
@@ -136,8 +142,22 @@ class _LoginScreenState extends State<LoginScreen> {
                                   borderSide: BorderSide(color: Colors.purple),
                                   borderRadius: BorderRadius.circular(15))),
                           validator: (value) {
-                            if (value!.isEmpty) {
-                              return "Password is Required";
+                            if (value!.isEmpty) return "Enter Password";
+                            if (value.length < 5) {
+                              return "Must be greater than 5 ";
+                            }
+                            if (!RegExp(".*[0-9].*").hasMatch(value ?? '')) {
+                              return 'Input should contain a numeric value 1-9. ';
+                            }
+                            if (!RegExp('.*[a-z].*').hasMatch(value ?? '')) {
+                              return 'Input should contain a lowercase letter a-z. ';
+                            }
+                            if (!RegExp('.*[A-Z].*').hasMatch(value ?? '')) {
+                              return 'Input should contain an uppercase letter A-Z. ';
+                            }
+                            if (!value
+                                .contains(RegExp(r'[!@#%^&*(),.?":{}|<>]'))) {
+                              return " Special character is missing.";
                             } else {
                               return null;
                             }
@@ -158,7 +178,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               color: Colors.blue.shade700, fontSize: 15),
                         )),
                     iscircle
-                        ? Center(child: CircularProgressIndicator())
+                        ? CircularProgressIndicator()
                         : ElevatedButton(
                             onPressed: () {
                               validate(context);
