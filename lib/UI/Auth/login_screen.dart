@@ -17,8 +17,11 @@ class _LoginScreenState extends State<LoginScreen> {
   bool passwordVisible = true;
   final formkey = GlobalKey<FormState>();
   bool iscircle = false;
-  TextEditingController email = TextEditingController();
-  TextEditingController password = TextEditingController();
+  TextEditingController emailcontroller = TextEditingController();
+  TextEditingController passwordcontroller = TextEditingController();
+
+  FocusNode email = FocusNode();
+  FocusNode password = FocusNode();
 
   validate(BuildContext context) async {
     if (formkey.currentState!.validate()) {
@@ -34,8 +37,8 @@ class _LoginScreenState extends State<LoginScreen> {
           ));
       setState(() {
         iscircle = false;
-        email.text = "";
-        password.text = "";
+        emailcontroller.text = "";
+        passwordcontroller.text = "";
       });
     }
   }
@@ -80,8 +83,9 @@ class _LoginScreenState extends State<LoginScreen> {
                         padding: const EdgeInsets.symmetric(
                             horizontal: 20, vertical: 15),
                         child: TextFormField(
+                          focusNode: email,
                           autovalidateMode: AutovalidateMode.onUserInteraction,
-                          controller: email,
+                          controller: emailcontroller,
                           keyboardType: TextInputType.emailAddress,
                           decoration: InputDecoration(
                               prefixIcon: Icon(Icons.email),
@@ -106,13 +110,17 @@ class _LoginScreenState extends State<LoginScreen> {
                             } else
                               return null;
                           },
+                          onFieldSubmitted: (value) {
+                            FocusScope.of(context).requestFocus(password);
+                          },
                         ),
                       ),
                       Padding(
                         padding: const EdgeInsets.symmetric(
                             horizontal: 20, vertical: 5),
                         child: TextFormField(
-                          controller: password,
+                          focusNode: password,
+                          controller: passwordcontroller,
                           obscureText: passwordVisible,
                           autovalidateMode: AutovalidateMode.onUserInteraction,
                           keyboardType: TextInputType.emailAddress,
@@ -184,7 +192,11 @@ class _LoginScreenState extends State<LoginScreen> {
                               validate(context);
                             },
                             child: Text("Login")),
-                    Text("OR"),
+                    // Text(
+                    //   "OR",
+                    //   style:
+                    //       TextStyle(fontWeight: FontWeight.w900, fontSize: 20),
+                    // ),
                     // SignInButton(
                     //   shape: RoundedRectangleBorder(
                     //       borderRadius: BorderRadius.circular(10)),
@@ -222,42 +234,48 @@ class _LoginScreenState extends State<LoginScreen> {
                     //     ),
                     //   ),
                     // ),
-                    ElevatedButton(
-                      style: ButtonStyle(
-                          shape: MaterialStatePropertyAll(StadiumBorder()),
-                          elevation: MaterialStatePropertyAll(10),
-                          overlayColor: MaterialStatePropertyAll(Colors.amber),
-                          backgroundColor:
-                              MaterialStatePropertyAll(Colors.white)),
-                      onPressed: () async {
-                        await Future.delayed(Duration(seconds: 2));
-                      },
-                      child: Padding(
-                        padding: const EdgeInsets.fromLTRB(0, 8, 0, 8),
-                        child: Row(
-                          mainAxisSize: MainAxisSize.min,
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: const [
-                            Image(
-                              image: AssetImage("assets/images/googleicon.png"),
-                              height: 25,
-                              width: 30,
-                            ),
-                            Padding(
-                              padding: EdgeInsets.only(left: 10, right: 8),
-                              child: Text(
-                                'Sign in with Google',
-                                style: TextStyle(
-                                  fontSize: 15,
-                                  color: Colors.black54,
-                                  fontWeight: FontWeight.w600,
+                    Padding(
+                      padding: const EdgeInsets.all(5.0),
+                      child: ElevatedButton(
+                        style: ButtonStyle(
+                            shape: MaterialStatePropertyAll(StadiumBorder()),
+                            elevation: MaterialStatePropertyAll(10),
+                            overlayColor:
+                                MaterialStatePropertyAll(Colors.amber),
+                            backgroundColor:
+                                MaterialStatePropertyAll(Colors.white)),
+                        onPressed: () async {
+                          await Future.delayed(Duration(seconds: 2));
+                        },
+                        child: Padding(
+                          padding: const EdgeInsets.fromLTRB(0, 8, 0, 8),
+                          child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: const [
+                              Image(
+                                image:
+                                    AssetImage("assets/images/googleicon.png"),
+                                height: 25,
+                                width: 30,
+                              ),
+                              Padding(
+                                padding: EdgeInsets.only(left: 10, right: 8),
+                                child: Text(
+                                  'Sign in with Google',
+                                  style: TextStyle(
+                                    fontSize: 15,
+                                    color: Colors.black54,
+                                    fontWeight: FontWeight.w600,
+                                  ),
                                 ),
                               ),
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
                       ),
                     ),
+
                     Row(mainAxisAlignment: MainAxisAlignment.center, children: [
                       Text("Don't Have An Account?", style: style1),
                       TextButton(
